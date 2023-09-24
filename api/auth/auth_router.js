@@ -39,6 +39,8 @@ router.post('/', async (req, res) => {
   } else if (result.length > 0) {
     req.body.id = 2;
     req.body.active = 0;
+
+		console.log(result);
   } else {
     req.body.id = 1;
     req.body.active = 1;

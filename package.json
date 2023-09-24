@@ -30,6 +30,6 @@
     "jsonwebtoken": "^8.5.1",
     "knex": "^2.1.0",
     "nodemon": "^2.0.18",
-    "sqlite3": "^5.0.8"
+    "sqlite3": "^5.1.6"
   }
 }
