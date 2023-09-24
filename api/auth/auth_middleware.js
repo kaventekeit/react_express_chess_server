@@ -2,7 +2,7 @@ const secret = require('./secrets');
 const jwt = require('jsonwebtoken');
 const Players = require('./players_model');
 
-function generate_token(player) { 
+ generate_token(player) { 
   const payload = { 
                     id: player.id, 
                   }; 
@@ -16,7 +16,6 @@ async function validate_token(req, res, next) {
 
   const token = req.headers.authorization;
 
-	const idk_should_be_token = await generate_token({ id: req.body.id });
 
   console.log(token);
 
@@ -28,10 +27,11 @@ async function validate_token(req, res, next) {
     console.log('INVALID TOKEN: ',token);
     res.status(401).json({ message: 'token invalid!' });
     return;
-  } else if (idk_should_be_token &&
-							idk_should_be_token !== token) {
+	} else if (JSON.parse(atob(token.split('.')[1])).id !==
+						req.body.id) {
 
-		res.status(403).json({ message: `you are not who you claim to be || token: ${token} || idk_should_be_token: ${idk_should_be_token}` });
+		res.status(403).json({ message: 'you are not who you say you are');
+		
 	} else {
     console.log('VALID TOKEN: ',token);
     req.headers.authorization = jwt.verify(token,secret);
