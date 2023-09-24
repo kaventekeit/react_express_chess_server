@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
     req.body.id = 2;
     req.body.active = 0;
 
-		console.log(result);
+		console.log(`RESULT:`, result);
   } else {
     req.body.id = 1;
     req.body.active = 1;
