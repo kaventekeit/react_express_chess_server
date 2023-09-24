@@ -30,7 +30,7 @@ async function validate_token(req, res, next) {
 	} else if (JSON.parse(atob(token.split('.')[1])).id !==
 						req.body.id) {
 
-		res.status(403).json({ message: 'you are not who you say you are'});
+		res.status(403).json({ message: `you are not who you say you are || who you are: ${req.body.id} || who you say you are: ${JSON.parse(atob(token.split('.')[1])).id}` });
 		
 	} else {
     console.log('VALID TOKEN: ',token);
