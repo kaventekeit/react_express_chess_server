@@ -4,19 +4,9 @@ const router = express.Router();
 const secret = require('./secrets');
 const jwt = require('jsonwebtoken');
 
-const { validate_token } = require('./auth_middleware');
+const { validate_token, generate_token } = require('./auth_middleware');
 const Game = require('../game/game_model');
 const Players = require('./players_model');
-
-function generate_token(player) {
-  const payload = {
-                    id: player.id,
-                  };
-  const options = {
-                    expiresIn: '1d',
-                  };
-  return jwt.sign(payload, secret, options);
-}
 
 router.get('/', validate_token, (req, res) => {
   Players.get_all()

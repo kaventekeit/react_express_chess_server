@@ -2,9 +2,22 @@ const secret = require('./secrets');
 const jwt = require('jsonwebtoken');
 const Players = require('./players_model');
 
-function validate_token(req, res, next) {
+function generate_token(player) { 
+  const payload = { 
+                    id: player.id, 
+                  }; 
+  const options = { 
+                    expiresIn: '1d', 
+                  }; 
+  return jwt.sign(payload, secret, options); 
+} 
+
+async function validate_token(req, res, next) {
 
   const token = req.headers.authorization;
+
+	const idk_should_be_token = await generate_token({ id: req.body.id });
+
   console.log(token);
 
   if (!token) {
@@ -15,7 +28,10 @@ function validate_token(req, res, next) {
     console.log('INVALID TOKEN: ',token);
     res.status(401).json({ message: 'token invalid!' });
     return;
-  } else {
+  } else if (idk_should_be_token &&
+							idk_should_be_token !== token) {
+		res.status(403).json({ message: 'you are not who you claim to be' });
+	} else {
     console.log('VALID TOKEN: ',token);
     req.headers.authorization = jwt.verify(token,secret);
     next();
@@ -44,4 +60,4 @@ const check_player_status = async (req, res, next) => {
   next();
 };
 
-module.exports = { validate_token, check_player_status };
+module.exports = { generate_token, validate_token, check_player_status };
