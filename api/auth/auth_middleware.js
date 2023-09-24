@@ -30,7 +30,8 @@ async function validate_token(req, res, next) {
     return;
   } else if (idk_should_be_token &&
 							idk_should_be_token !== token) {
-		res.status(403).json({ message: 'you are not who you claim to be' });
+
+		res.status(403).json({ message: `you are not who you claim to be || token: ${token} || idk_should_be_token: ${idk_should_be_token}` });
 	} else {
     console.log('VALID TOKEN: ',token);
     req.headers.authorization = jwt.verify(token,secret);
