@@ -2,8 +2,8 @@ const secret = require('./secrets');
 const jwt = require('jsonwebtoken');
 const Players = require('./players_model');
 
- generate_token(player) { 
-  const payload = { 
+function generate_token(player) {
+	const payload = {
                     id: player.id, 
                   }; 
   const options = { 
@@ -30,7 +30,7 @@ async function validate_token(req, res, next) {
 	} else if (JSON.parse(atob(token.split('.')[1])).id !==
 						req.body.id) {
 
-		res.status(403).json({ message: 'you are not who you say you are');
+		res.status(403).json({ message: 'you are not who you say you are'});
 		
 	} else {
     console.log('VALID TOKEN: ',token);
