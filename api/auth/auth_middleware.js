@@ -16,6 +16,8 @@ async function validate_token(req, res, next) {
 
   const token = req.headers.authorization;
 
+	const existing_players = await Players.get_all();
+	const existing_player_1_fingerprint = existing_players[0].fingerprint;
 
   console.log(token);
 
@@ -27,11 +29,10 @@ async function validate_token(req, res, next) {
     console.log('INVALID TOKEN: ',token);
     res.status(401).json({ message: 'token invalid!' });
     return;
-	} else if (req.body.id && JSON.parse(atob(token.split('.')[1])).id !==
-						req.body.id) {
-
-		res.status(403).json({ message: `you are not who you say you are || who you are: ${req.body.id} || who you say you are: ${JSON.parse(atob(token.split('.')[1])).id}` });
-		
+	} else if (token.split('.')[2] ===
+							existing_player_1_fingerprint) {
+		res.status(403).json({ message: "you're already in here!" });
+		return;
 	} else {
     console.log('VALID TOKEN: ',token);
     req.headers.authorization = jwt.verify(token,secret);
