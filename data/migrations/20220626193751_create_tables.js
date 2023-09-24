@@ -3,7 +3,6 @@ exports.up = function(knex) {
     .createTable('players', tbl => {
       tbl.integer('id')
           .unique();
-			tbl.varchar('fingerprint');
       tbl.integer('active')
         .notNullable();
       tbl.integer('queening')

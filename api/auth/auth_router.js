@@ -40,7 +40,6 @@ router.post('/', async (req, res) => {
   req.body.castle_possible_kingside = 1;
   req.body.castle_possible_queenside = 1;
   req.body.won = 0;
-	req.body.fingerprint = req.headers.auth.token.split('.')[2];
   await Players.add(req.body);
         
   const token = generate_token(req.body);
